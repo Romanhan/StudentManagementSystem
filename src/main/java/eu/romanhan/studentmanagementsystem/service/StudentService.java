@@ -7,4 +7,6 @@ import eu.romanhan.studentmanagementsystem.entity.Student;
 public interface StudentService {
 
 	List<Student> getAllStudents();
+
+	Student saveStudent(Student student);
 }
