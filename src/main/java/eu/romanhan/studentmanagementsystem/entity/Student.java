@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,10 +23,17 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "first_name", nullable = false)
+
+	@Size(min = 3, message = "Enter name")
+	@Column(name = "first_name")
 	private String firstName;
+
+	@Size(min = 3, message = "Enter last name")
 	@Column(name = "last_name")
 	private String lastName;
+
+	@NotBlank(message = "Email is required")
+	@Email(message = "Enter correct email")
 	private String email;
 
 	public Student(String firstName, String lastName, String email) {
