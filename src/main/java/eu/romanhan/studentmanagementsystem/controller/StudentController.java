@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import eu.romanhan.studentmanagementsystem.entity.Student;
@@ -39,6 +40,31 @@ public class StudentController {
 			return "create_student";
 		}
 		studentService.saveStudent(student);
+		return "redirect:/students";
+	}
+
+	@GetMapping("/students/edit/{id}")
+	public String editStudentForm(@PathVariable Long id, Model model) {
+		model.addAttribute("student", studentService.getStudentById(id));
+		return "edit_student";
+	}
+
+	@PostMapping("/students/{id}")
+	public String updateStudent(@PathVariable Long id, @ModelAttribute("student") @Valid Student student,
+			BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("student", student);
+			return "edit_student";
+		}
+
+		Student existingStudent = studentService.getStudentById(id);
+		existingStudent.setId(student.getId());
+		existingStudent.setFirstName(student.getFirstName());
+		existingStudent.setLastName(student.getLastName());
+		existingStudent.setEmail(student.getEmail());
+
+		studentService.updateStudent(existingStudent);
 		return "redirect:/students";
 	}
 }
