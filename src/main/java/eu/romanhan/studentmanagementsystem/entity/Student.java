@@ -34,6 +34,7 @@ public class Student {
 
 	@NotBlank(message = "Email is required")
 	@Email(message = "Enter correct email")
+	@Column(unique = true)
 	private String email;
 
 	public Student(String firstName, String lastName, String email) {

@@ -42,4 +42,12 @@ public class StudentServiceImpl implements StudentService {
 		studentRepository.deleteById(id);
 	}
 
+	@Override
+	public boolean existsByEmail(String email) {
+		if (studentRepository.existsByEmail(email)) {
+			return true;
+		}
+		return false;
+	}
+
 }

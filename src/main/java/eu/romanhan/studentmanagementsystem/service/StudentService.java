@@ -15,4 +15,6 @@ public interface StudentService {
 	Student updateStudent(Student student);
 
 	void deleteStudent(Long id);
+
+	boolean existsByEmail(String email);
 }

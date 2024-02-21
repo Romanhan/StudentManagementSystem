@@ -39,7 +39,13 @@ public class StudentController {
 		if (result.hasErrors()) {
 			return "create_student";
 		}
+		if (studentService.existsByEmail(student.getEmail())) {
+			result.rejectValue("email", "unique", "This Email already exists");
+			return "create_student";
+		}
+
 		studentService.saveStudent(student);
+
 		return "redirect:/students";
 	}
 
