@@ -1,5 +1,6 @@
 package eu.romanhan.studentmanagementsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ public class StudentController {
 		return "students";
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("students/new")
 	public String createStudent(Model model) {
 		Student student = new Student();
