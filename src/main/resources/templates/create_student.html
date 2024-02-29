@@ -14,39 +14,38 @@
 	<br>
 	<br>
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 col-md-6 col-sm6 container justify-content-center card">
-				<h1 class="text-center"> Create new student </h1>
-				<div class="card-body">
-					<form th:action="@{/students}" th:object="${student}" method="post">
-						<div class="form-group">
-							<label>Student first name</label>
-							<input type="text" name="firstName" th:field="*{firstName}" class="form-control"
-								placeholder="Enter student first name" />
-							<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-								class="text-danger"></span>
-						</div>
-						<br>
-						<div class="form-group">
-							<label>Student last name</label>
-							<input type="text" name="lastName" th:field="*{lastName}" class="form-control"
-								placeholder="Enter student last name" />
-							<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-								class="text-danger"></span>
-						</div>
-						<br>
-						<div class="form-group">
-							<label>Student email</label>
-							<input type="text" name="email" th:field="*{email}" class="form-control"
-								placeholder="Enter student email" />
-							<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
-						</div>
-						<br>
-						<div class="box-footer">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</div>
+		<div class="row justify-content-md-center">
+			<div class="col-lg-4 col-md-4 col-sm-4 ">
 
-					</form>
+				<div class="card">
+					<div class="card-header">
+						<h2 class="text-center"> Create new student </h2>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/students}" th:object="${student}" method="post">
+							<div class="form-group mb-3">
+								<input type="text" name="firstName" th:field="*{firstName}" class="form-control"
+									placeholder="Enter student first name" />
+								<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+									class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<input type="text" name="lastName" th:field="*{lastName}" class="form-control"
+									placeholder="Enter student last name" />
+								<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+									class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<input type="text" name="email" th:field="*{email}" class="form-control"
+									placeholder="Enter student email" />
+								<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+									class="text-danger"></span>
+							</div>
+							<div class="d-grid gap-2 mb-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

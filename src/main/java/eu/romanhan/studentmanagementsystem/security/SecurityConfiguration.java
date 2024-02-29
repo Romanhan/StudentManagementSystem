@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,9 +28,12 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+		http.authorizeHttpRequests(
+				authorize -> authorize.requestMatchers("/login").permitAll().anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
-				.formLogin(formLogin -> formLogin.defaultSuccessUrl("/students", true).permitAll());
+				.formLogin(formLogin -> formLogin.loginPage("/login").loginProcessingUrl("/login")
+						.defaultSuccessUrl("/students", true).permitAll())
+				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
 
 		return http.build();
 	}
@@ -38,8 +42,8 @@ public class SecurityConfiguration {
 	public UserDetailsService userDetailsService() {
 		UserDetails user = User.builder().username("name").password(passwordEncoder().encode("pass")).roles("USER")
 				.build();
-		UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin")).roles("ADMIN")
-				.build();
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin"))
+				.roles("USER", "ADMIN").build();
 
 		return new InMemoryUserDetailsManager(user, admin);
 	}
