@@ -28,8 +28,8 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(
-				authorize -> authorize.requestMatchers("/login").permitAll().anyRequest().authenticated())
+		http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login").permitAll()
+				.requestMatchers("/register/**").permitAll().anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.formLogin(formLogin -> formLogin.loginPage("/login").loginProcessingUrl("/login")
 						.defaultSuccessUrl("/students", true).permitAll())
