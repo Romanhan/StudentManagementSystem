@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import eu.romanhan.studentmanagementsystem.entity.Student;
+import eu.romanhan.studentmanagementsystem.entity.User;
 import eu.romanhan.studentmanagementsystem.service.StudentService;
 import jakarta.validation.Valid;
 
@@ -25,6 +26,13 @@ public class StudentController {
 	@GetMapping("/login")
 	public String login() {
 		return "/login";
+	}
+
+	@GetMapping("/register")
+	public String registerPage(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		return "register";
 	}
 
 	@GetMapping("/students")
