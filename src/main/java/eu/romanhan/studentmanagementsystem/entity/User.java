@@ -14,6 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,20 +34,25 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Size(min = 3, message = "Enter name")
+	@Column(name = "first_name", unique = true)
 	private String firstName;
 
-	@Column(nullable = false)
+	@Size(min = 3, message = "Enter last name")
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(nullable = false, unique = true)
+	@NotBlank(message = "Password is required")
 	private String password;
 
-	@Column(nullable = false, unique = true)
+	@NotBlank(message = "Email is required")
+	@Email(message = "Enter correct email")
+	@Column(unique = true)
 	private String email;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "ROLE_ID") })
+	@JoinTable(name = "user_roles", joinColumns = {
+			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
 	private List<Role> roles = new ArrayList<>();
 }
