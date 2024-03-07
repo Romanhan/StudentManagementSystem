@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import eu.romanhan.studentmanagementsystem.dto.UserDto;
 import eu.romanhan.studentmanagementsystem.entity.Role;
 import eu.romanhan.studentmanagementsystem.entity.User;
 import eu.romanhan.studentmanagementsystem.repository.RoleRepository;
@@ -21,12 +22,12 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public void saveUser(User user) {
+	public void saveUser(UserDto userDto) {
 		User userToSave = new User();
-		userToSave.setFirstName(user.getFirstName());
-		userToSave.setLastName(user.getLastName());
-		userToSave.setEmail(user.getEmail());
-		userToSave.setPassword(passwordEncoder.encode(user.getPassword()));
+		userToSave.setFirstName(userDto.getFirstName());
+		userToSave.setLastName(userDto.getLastName());
+		userToSave.setEmail(userDto.getEmail());
+		userToSave.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
 		Role role = roleRepository.findByName("ROLE_USER");
 		if (role == null) {
