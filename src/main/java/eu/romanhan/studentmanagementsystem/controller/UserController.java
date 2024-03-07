@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import eu.romanhan.studentmanagementsystem.dto.UserDto;
 import eu.romanhan.studentmanagementsystem.entity.User;
 import eu.romanhan.studentmanagementsystem.service.UserService;
 import jakarta.validation.Valid;
@@ -25,15 +26,15 @@ public class UserController {
 
 	@GetMapping("/register")
 	public String registerPage(Model model) {
-		User user = new User();
+		UserDto user = new UserDto();
 		model.addAttribute("user", user);
 		return "register";
 	}
 
 	@PostMapping("/register/save")
-	public String registration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
-		User existingUserByEmail = userService.findUserByEmail(user.getEmail());
-		User existingUserByName = userService.findByFirstName(user.getFirstName());
+	public String registration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, Model model) {
+		User existingUserByEmail = userService.findUserByEmail(userDto.getEmail());
+		User existingUserByName = userService.findByFirstName(userDto.getFirstName());
 
 		if (existingUserByEmail != null) {
 			result.rejectValue("email", null, "There is already an account registered with the same email");
@@ -43,11 +44,11 @@ public class UserController {
 		}
 
 		if (result.hasErrors()) {
-			model.addAttribute("user", user);
+			model.addAttribute("user", userDto);
 			return "/register";
 		}
 
-		userService.saveUser(user);
+		userService.saveUser(userDto);
 		return "redirect:/register?success";
 	}
 }
